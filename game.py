@@ -41,7 +41,7 @@ def play_game(username, screen, font):
         attempts = 0
         while True:
             screen.fill((255, 255, 255))
-            display_text(screen, font, f"Find the '{target_letter}' key", 100, 100)
+            display_text(screen, font, f"Find the '?' key", 100, 100)
             display_text(screen, font, f"Score: {score}", 100, 200)
             display_text(screen, font, f"Current user: {username}", 100, 250)
             pygame.display.flip()

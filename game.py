@@ -28,20 +28,22 @@ def get_user_input():
 
 
 def play_game(username, screen, font):
-    user_id, games_played = get_user_id(username)
+    custom_font_path = 'assets/fonts/212Keyboard.otf'
+    custom_font = pygame.font.Font(custom_font_path, 36)
+
+    user_id = get_user_id(username)
     games_played = increment_games_played(user_id)
     score = 0
     total_attempts = 0
     game_id = record_game(user_id, score)
-    letters = 10
 
-    for _ in range(letters):
+    for _ in range(10):
         target_letter = get_random_letter()
         speak(f"Find the {target_letter} key")
         attempts = 0
         while True:
             screen.fill((255, 255, 255))
-            display_text(screen, font, f"Find the '?' key", 100, 100)
+            display_text(screen, font, f"Find the '{target_letter}' key", 100, 100)
             display_text(screen, font, f"Score: {score}", 100, 200)
             display_text(screen, font, f"Current user: {username}", 100, 250)
             pygame.display.flip()
@@ -49,12 +51,11 @@ def play_game(username, screen, font):
             attempts += 1
             if user_input == target_letter:
                 screen.fill((0, 255, 0))
-                display_text(screen, font, f"Congratulations! You found the '{target_letter}' key", 100, 300)
+                display_text(screen, font, f"Congratulations! You found the", 100, 300)
+                display_text(screen, custom_font, f"'{target_letter}'", 500, 300)
                 pygame.display.flip()
                 pygame.time.delay(1000)
                 speak("Correct")
-                if attempts > 1:
-                    break
                 score += 1
                 break
             else:
@@ -62,8 +63,7 @@ def play_game(username, screen, font):
         record_attempt(user_id, game_id, target_letter, attempts)
         total_attempts += attempts
 
-    speak(f"Your score is {score} out of {letters}")
-    # Update the game record with the final score
+    speak(f"Your score is {score}")
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
     cursor.execute("UPDATE games SET score = ? WHERE game_id = ?", (score, game_id))

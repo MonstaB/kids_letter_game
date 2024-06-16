@@ -3,9 +3,11 @@ from main_menu import main_menu
 from admin_menu import admin_menu
 from database import check_admin_exists, add_admin
 
+
 def display_text(screen, font, text, x, y):
     text_surface = font.render(text, True, (0, 0, 0))
     screen.blit(text_surface, (x, y))
+
 
 def admin_creation(screen, font):
     input_active = False
@@ -54,6 +56,7 @@ def admin_creation(screen, font):
                     elif input_field == 3:
                         group_name += event.unicode
     return True
+
 
 if __name__ == "__main__":
     pygame.init()

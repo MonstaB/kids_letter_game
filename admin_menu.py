@@ -1,9 +1,11 @@
 import pygame
 from database import add_admin, disable_group, add_new_group, get_all_groups, get_admin
 
+
 def display_text(screen, font, text, x, y):
     text_surface = font.render(text, True, (0, 0, 0))
     screen.blit(text_surface, (x, y))
+
 
 def admin_menu(screen, font):
     running = True
@@ -50,6 +52,7 @@ def admin_menu(screen, font):
                         password += event.unicode
     return True
 
+
 def admin_options(screen, font):
     running = True
     while running:
@@ -75,8 +78,10 @@ def admin_options(screen, font):
                     running = False
     return True
 
+
 def view_users(screen, font):
     pass  # Implement view users functionality here
+
 
 def add_group(screen, font):
     running = True
@@ -98,6 +103,7 @@ def add_group(screen, font):
                     group_name = group_name[:-1]
                 else:
                     group_name += event.unicode
+
 
 def disable_groups(screen, font):
     running = True

@@ -1,9 +1,11 @@
 import pygame
 from game import play_game
 
+
 def display_text(screen, font, text, x, y):
     text_surface = font.render(text, True, (0, 0, 0))
     screen.blit(text_surface, (x, y))
+
 
 def game_menu(screen, font, username, user_id):
     running = True

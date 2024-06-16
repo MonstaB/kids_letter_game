@@ -1,5 +1,6 @@
 import sqlite3
 
+
 def setup_database():
     print("Setting up database...")
     conn = sqlite3.connect('letter_game.db')
@@ -39,14 +40,17 @@ def setup_database():
     conn.close()
     print("Database setup complete.")
 
+
 def add_admin(username, password, group_name):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
     cursor.execute("INSERT INTO groups (group_name) VALUES (?)", (group_name,))
     group_id = cursor.lastrowid
-    cursor.execute("INSERT INTO users (username, password, group_id, is_admin) VALUES (?, ?, ?, 1)", (username, password, group_id))
+    cursor.execute("INSERT INTO users (username, password, group_id, is_admin) VALUES (?, ?, ?, 1)",
+                   (username, password, group_id))
     conn.commit()
     conn.close()
+
 
 def check_admin_exists():
     conn = sqlite3.connect('letter_game.db')
@@ -60,19 +64,23 @@ def check_admin_exists():
 def record_attempt(user_id, game_id, letter, attempts):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
-    cursor.execute("INSERT INTO attempts (user_id, game_id, letter, attempts) VALUES (?, ?, ?, ?)", (user_id, game_id, letter, attempts))
+    cursor.execute("INSERT INTO attempts (user_id, game_id, letter, attempts) VALUES (?, ?, ?, ?)",
+                   (user_id, game_id, letter, attempts))
     conn.commit()
     conn.close()
+
 
 def increment_games_played(user_id):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
-    cursor.execute("UPDATE users SET find_the_letter_attempts = find_the_letter_attempts + 1 WHERE user_id = ?", (user_id,))
+    cursor.execute("UPDATE users SET find_the_letter_attempts = find_the_letter_attempts + 1 WHERE user_id = ?",
+                   (user_id,))
     cursor.execute("SELECT find_the_letter_attempts FROM users WHERE user_id = ?", (user_id,))
     attempts = cursor.fetchone()[0]
     conn.commit()
     conn.close()
     return attempts
+
 
 def record_game(user_id, score):
     conn = sqlite3.connect('letter_game.db')
@@ -84,13 +92,13 @@ def record_game(user_id, score):
     return game_id
 
 
-
 def add_new_group(group_name):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
     cursor.execute("INSERT INTO groups (group_name) VALUES (?)", (group_name,))
     conn.commit()
     conn.close()
+
 
 def get_all_groups():
     conn = sqlite3.connect('letter_game.db')
@@ -100,6 +108,7 @@ def get_all_groups():
     conn.close()
     return groups
 
+
 def disable_group(group_id, status):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
@@ -107,25 +116,30 @@ def disable_group(group_id, status):
     conn.commit()
     conn.close()
 
+
 def get_admin(username, password):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
-    cursor.execute("SELECT user_id FROM users WHERE username = ? AND password = ? AND is_admin = 1", (username, password))
+    cursor.execute("SELECT user_id FROM users WHERE username = ? AND password = ? AND is_admin = 1",
+                   (username, password))
     admin = cursor.fetchone()
     conn.close()
     return admin
+
 
 def create_user(username, password, group_id):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
     try:
-        cursor.execute("INSERT INTO users (username, password, group_id) VALUES (?, ?, ?)", (username, password, group_id))
+        cursor.execute("INSERT INTO users (username, password, group_id) VALUES (?, ?, ?)",
+                       (username, password, group_id))
         conn.commit()
     except sqlite3.IntegrityError:
         return False  # Username already exists
     finally:
         conn.close()
     return True
+
 
 def validate_user(username, password):
     conn = sqlite3.connect('letter_game.db')
@@ -149,6 +163,7 @@ def get_user_id(username):
     else:
         return None
 
+
 def get_games_played(user_id):
     conn = sqlite3.connect('letter_game.db')
     cursor = conn.cursor()
@@ -159,5 +174,6 @@ def get_games_played(user_id):
         return games_played[0]
     else:
         return 0
+
 
 setup_database()

@@ -3,9 +3,11 @@ from game_menu import game_menu
 from admin_menu import admin_menu
 from database import get_user_id, create_user, validate_user, get_all_groups
 
+
 def display_text(screen, font, text, x, y):
     text_surface = font.render(text, True, (0, 0, 0))
     screen.blit(text_surface, (x, y))
+
 
 def main_menu(screen, font):
     running = True
@@ -42,6 +44,7 @@ def main_menu(screen, font):
 
     return True
 
+
 def create_account(screen, font):
     username = ''
     password = ''
@@ -62,7 +65,7 @@ def create_account(screen, font):
         display_text(screen, font, "*" * len(password) if input_field != 2 else "*" * len(password) + "|", 300, 200)
         display_text(screen, font, "Select Group:", 100, 250)
         for i, group_name in enumerate(group_names):
-            display_text(screen, font, f"{i+1}. {group_name}", 300, 250 + i * 30)
+            display_text(screen, font, f"{i + 1}. {group_name}", 300, 250 + i * 30)
         display_text(screen, font, "Press Enter to submit", 100, 400)
         if error_message:
             display_text(screen, font, error_message, 100, 450)
@@ -95,6 +98,7 @@ def create_account(screen, font):
                         username += event.unicode
                     elif input_field == 2:
                         password += event.unicode
+
 
 def sign_in(screen, font):
     username = ''
